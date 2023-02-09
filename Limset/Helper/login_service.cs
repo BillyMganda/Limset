@@ -45,20 +45,17 @@ namespace Limset.Helper
             }
         }
 
-        public async Task<bool> is_user_available(string username)
+        public async Task<users> is_user_available(string username)
         {
             var is_user_available = await _context.users.FirstOrDefaultAsync(x => x.username == username);
-            if(is_user_available == null)
-                return false;
-            return true;
+            if (is_user_available == null)
+                return null!; ;
+            return is_user_available;
         }
-
-        public async void login(login_dto dto)
+        public async Task<string> user_role(string username)
         {
-            var is_user_available = await _context.users.FirstOrDefaultAsync(x => x.username == dto.username);
-            if(is_user_available == null)
-                return;
-
+            var user = await _context.users.FirstOrDefaultAsync(x => x.username == username);
+            return user!.role;
         }
     }
 }

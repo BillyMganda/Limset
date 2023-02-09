@@ -34,9 +34,29 @@ namespace Limset
                 else
                 {
                     var user = await _service.is_user_available(txtUsername.Text);
-                    if (!user)
+                    if (user == null)
                     {
                         MessageBox.Show("user not found", "Not Found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                    else
+                    {
+                        var is_true = _service.verify_password_hash(txtPassword.Text, user.password_hash, user.password_salt);
+                        if(!is_true)
+                        {
+                            MessageBox.Show("incorrect username or password", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        }
+                        else
+                        {
+                            var role = await _service.user_role(txtUsername.Text);
+                            if(role == "admin")
+                            {
+                                //open admin window
+                            }
+                            else if(role == "user")
+                            {
+                                //open user window
+                            }
+                        }
                     }
                 }                
             }
