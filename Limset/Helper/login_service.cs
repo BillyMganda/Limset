@@ -15,7 +15,7 @@ namespace Limset.Helper
         }
         public bool is_username_ok(string username)
         {
-            if(username.Length < 6)
+            if(username.Length < 5)
                 return false;
             return true;
         }

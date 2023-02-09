@@ -19,6 +19,7 @@ namespace Limset
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddDbContext<LimSet_DbContext>();
             serviceCollection.AddScoped<Ilogin_service, login_service>();
+            serviceCollection.AddScoped<Iadmin_service, admin_service>();
             var serviceProvider = serviceCollection.BuildServiceProvider();
 
             using (var form = new Login(serviceProvider.GetService<Ilogin_service>()))
