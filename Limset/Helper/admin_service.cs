@@ -61,5 +61,18 @@ namespace Limset.Helper
             await _context.SaveChangesAsync();
             return user.Entity;
         }
+
+        public async Task<users> disable_user(string fname, string lname)
+        {
+            var user = await _context.users.Where(x => x.first_name == fname && x.last_name == lname).FirstOrDefaultAsync();
+            if(user != null)
+            {
+                user.is_active = false;
+
+                await _context.SaveChangesAsync();
+                return user;
+            }
+            return null!;
+        }
     }
 }
