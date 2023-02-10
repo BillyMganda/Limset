@@ -9,6 +9,6 @@ namespace Limset.Helper
         public void create_password_hash(string password, out byte[] passwordHash, out byte[] passwordSalt);
         public bool verify_password_hash(string password, byte[] passwordHash, byte[] passwordSalt);
         public Task<users> is_user_available(string username);
-        public Task<string> user_role(string username);
+        public Task<string> user_role(string username);        
     }
 }

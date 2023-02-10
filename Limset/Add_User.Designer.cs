@@ -78,7 +78,7 @@
             // rdoAdmin
             // 
             this.rdoAdmin.AutoSize = true;
-            this.rdoAdmin.Location = new System.Drawing.Point(8, 17);
+            this.rdoAdmin.Location = new System.Drawing.Point(8, 21);
             this.rdoAdmin.Name = "rdoAdmin";
             this.rdoAdmin.Size = new System.Drawing.Size(61, 19);
             this.rdoAdmin.TabIndex = 3;
@@ -90,7 +90,7 @@
             // rdoUser
             // 
             this.rdoUser.AutoSize = true;
-            this.rdoUser.Location = new System.Drawing.Point(190, 17);
+            this.rdoUser.Location = new System.Drawing.Point(190, 21);
             this.rdoUser.Name = "rdoUser";
             this.rdoUser.Size = new System.Drawing.Size(48, 19);
             this.rdoUser.TabIndex = 2;

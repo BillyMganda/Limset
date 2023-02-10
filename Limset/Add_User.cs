@@ -11,7 +11,7 @@ namespace Limset
             InitializeComponent();
             _service = service;
         }
-
+        
         private void btnCancel_Click(object sender, EventArgs e)
         {
             Close();
