@@ -10,5 +10,8 @@ namespace Limset.Helper
         public void create_password_hash(string password, out byte[] passwordHash, out byte[] passwordSalt);
         public Task<users> add_user(string fname, string lname, string username, string password, string role);  
         public Task<users> disable_user(string fname, string lname);
+
+        //upload data from excel to datagridview
+        //POST data in datagridview to online
     }
 }

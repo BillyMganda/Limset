@@ -90,6 +90,7 @@
             this.btnDataOnline.Text = "Data Online";
             this.btnDataOnline.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnDataOnline.UseVisualStyleBackColor = true;
+            this.btnDataOnline.Click += new System.EventHandler(this.btnDataOnline_Click);
             // 
             // btnDataMachine
             // 
@@ -103,6 +104,7 @@
             this.btnDataMachine.Text = "Data to Machine";
             this.btnDataMachine.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnDataMachine.UseVisualStyleBackColor = true;
+            this.btnDataMachine.Click += new System.EventHandler(this.btnDataMachine_Click);
             // 
             // Admin
             // 

@@ -5,13 +5,14 @@ namespace Limset
     public partial class Login : Form
     {
         private readonly Ilogin_service _service;
+        
         private bool _dragging;
         private Point _offset;
 
         public Login(Ilogin_service service)
         {
             InitializeComponent();
-            _service = service;                        
+            _service = service;            
         }
 
         private void Login_MouseDown(object sender, MouseEventArgs e)

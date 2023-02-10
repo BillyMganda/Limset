@@ -22,5 +22,16 @@ namespace Limset
             Disable_User du = new Disable_User(_service);
             du.ShowDialog();
         }
+
+        private void btnDataOnline_Click(object sender, EventArgs e)
+        {
+            Admin_Data_Online ado = new Admin_Data_Online();
+            ado.ShowDialog();
+        }
+
+        private void btnDataMachine_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
