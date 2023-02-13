@@ -6,9 +6,8 @@ namespace Limset
     {
         private bool _dragging;
         private Point _offset;
-
-        private static readonly LimSet_DbContext? _context;
-        login_service _service = new login_service(_context);
+                
+        login_service _service = new login_service();
 
         public Login()
         {
@@ -36,29 +35,7 @@ namespace Limset
         private void Login_MouseUp(object sender, MouseEventArgs e)
         {
             _dragging = false;
-        }
-
-        private void Login_Load(object sender, EventArgs e)
-        {
-            try
-            {
-                var admin_available = _service.is_admin_available_in_db();
-                if (admin_available == true)
-                {
-                    //do nothing
-                }
-                else
-                {
-                    Add_User au = new Add_User();
-                    this.Close();
-                    au.ShowDialog();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }            
-        }
+        }              
 
         private void btnCancel_Click(object sender, EventArgs e)
         {

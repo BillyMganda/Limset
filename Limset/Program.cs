@@ -1,4 +1,5 @@
 using Limset.Helper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Limset
@@ -22,7 +23,19 @@ namespace Limset
             serviceCollection.AddScoped<Iadmin_service, admin_service>();
             var serviceProvider = serviceCollection.BuildServiceProvider();
 
-            Application.Run(new Login());
+
+            using (var context = new LimSet_DbContext())
+            {
+                var admin_user = context.users.Any(x => x.role == "Admin");
+                if(admin_user)
+                {
+                    Application.Run(new Login());
+                }
+                else
+                {
+                    Application.Run(new Add_User());
+                }
+            }            
         }               
     }
 }

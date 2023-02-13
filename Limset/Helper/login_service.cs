@@ -7,19 +7,20 @@ using System.Text;
 namespace Limset.Helper
 {
     internal class login_service : Ilogin_service
-    {
-        private readonly LimSet_DbContext _context;
-        public login_service(LimSet_DbContext context)
+    {        
+        public login_service()
         {
-            _context = context;
-        }
-
+            
+        }             
         public bool is_admin_available_in_db()
         {
-            var admin_user = _context.users.AnyAsync(x => x.role == "Admin");
-            if (admin_user == null)
-                return false;
-            return true;
+            using(var context = new LimSet_DbContext())
+            {
+                var admin_user = context.users.AnyAsync(x => x.role == "Admin");
+                if (admin_user == null)
+                    return false;
+                return true;
+            }            
         }
         public bool is_username_ok(string username)
         {
@@ -55,15 +56,21 @@ namespace Limset.Helper
 
         public async Task<users> is_user_available(string username)
         {
-            var is_user_available = await _context.users.FirstOrDefaultAsync(x => x.username == username);
-            if (is_user_available == null)
-                return null!; ;
-            return is_user_available;
+            using (var context = new LimSet_DbContext())
+            {
+                var is_user_available = await context.users.FirstOrDefaultAsync(x => x.username == username);
+                if (is_user_available == null)
+                    return null!;
+                return is_user_available;
+            }               
         }
         public async Task<string> user_role(string username)
         {
-            var user = await _context.users.FirstOrDefaultAsync(x => x.username == username);
-            return user!.role;
+            using (var context = new LimSet_DbContext())
+            {
+                var user = await context.users.FirstOrDefaultAsync(x => x.username == username);
+                return user!.role;
+            }                
         }
     }
 }
