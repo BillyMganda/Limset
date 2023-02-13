@@ -22,10 +22,7 @@ namespace Limset
             serviceCollection.AddScoped<Iadmin_service, admin_service>();
             var serviceProvider = serviceCollection.BuildServiceProvider();
 
-            using (var form = new Login(serviceProvider.GetService<Ilogin_service>()))
-            {
-                Application.Run(form);
-            }
+            Application.Run(new Login());
         }               
     }
 }

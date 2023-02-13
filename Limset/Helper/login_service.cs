@@ -13,7 +13,14 @@ namespace Limset.Helper
         {
             _context = context;
         }
-               
+
+        public bool is_admin_available_in_db()
+        {
+            var admin_user = _context.users.AnyAsync(x => x.role == "Admin");
+            if (admin_user == null)
+                return false;
+            return true;
+        }
         public bool is_username_ok(string username)
         {
             if(username.Length < 5)

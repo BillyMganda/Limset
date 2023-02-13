@@ -5,11 +5,11 @@ namespace Limset
 {
     public partial class Add_User : Form
     {
-        private readonly Iadmin_service _service;
-        public Add_User(Iadmin_service service)
+        private static readonly LimSet_DbContext? _context;        
+        admin_service _service = new admin_service(_context);
+        public Add_User()
         {
-            InitializeComponent();
-            _service = service;
+            InitializeComponent();            
         }
         
         private void btnCancel_Click(object sender, EventArgs e)

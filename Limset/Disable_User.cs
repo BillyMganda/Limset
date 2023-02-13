@@ -13,11 +13,11 @@ namespace Limset
 {
     public partial class Disable_User : Form
     {
-        private readonly Iadmin_service _service;
-        public Disable_User(Iadmin_service service)
+        private static readonly LimSet_DbContext? _context;
+        admin_service _service = new admin_service(_context);
+        public Disable_User()
         {
-            InitializeComponent();
-            _service = service;
+            InitializeComponent();            
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -25,7 +25,7 @@ namespace Limset
             Close();
         }
 
-        private void btnSave_Click(object sender, EventArgs e)
+        private async void btnSave_Click(object sender, EventArgs e)
         {
             try
             {
@@ -35,7 +35,7 @@ namespace Limset
                 }
                 else
                 {
-                    _service.disable_user(txtfirstName.Text, txtLastName.Text);
+                    await _service.disable_user(txtfirstName.Text, txtLastName.Text);
                     MessageBox.Show("operation successful", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }

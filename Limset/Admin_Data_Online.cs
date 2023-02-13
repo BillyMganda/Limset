@@ -13,7 +13,7 @@ namespace Limset
             InitializeComponent();
         }
 
-        DataTableCollection tables;
+        DataTableCollection? tables;
         private void btnLoadExcel_Click(object sender, EventArgs e)
         {
             try
@@ -53,7 +53,7 @@ namespace Limset
         {
             try
             {
-                DataTable dt = tables[cboSheet.SelectedItem.ToString()]!;
+                DataTable dt = tables![cboSheet.SelectedItem.ToString()]!;
                 if (dt != null)
                 {
                     List<post_data_online> list = new List<post_data_online>();
