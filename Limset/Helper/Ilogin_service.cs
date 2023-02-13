@@ -3,8 +3,7 @@
 namespace Limset.Helper
 {
     public interface Ilogin_service
-    {
-        public bool is_admin_available_in_db();
+    {        
         public bool is_username_ok(string username);
         public bool is_password_ok(string password);
         public void create_password_hash(string password, out byte[] passwordHash, out byte[] passwordSalt);

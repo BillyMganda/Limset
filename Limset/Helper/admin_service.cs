@@ -6,11 +6,10 @@ using System.Text;
 namespace Limset.Helper
 {
     public class admin_service : Iadmin_service
-    {
-        private readonly LimSet_DbContext _context;
-        public admin_service(LimSet_DbContext context)
+    {        
+        public admin_service()
         {
-            _context = context;
+            
         }
         public bool are_all_details_available(string fname, string lname, string username, string password, string role)
         {
@@ -27,10 +26,13 @@ namespace Limset.Helper
         }        
         public bool is_user_available(string username)
         {
-            var user = _context.users.FirstOrDefaultAsync(x => x.username == username);
-            if(user == null)
-                return false;
-            return true;
+            using(var context = new LimSet_DbContext())
+            {
+                var user = context.users.FirstOrDefault(x => x.username == username);
+                if (user == null)
+                    return false;
+                return true;
+            }            
         }
         public void create_password_hash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
@@ -57,22 +59,28 @@ namespace Limset.Helper
                 is_active = true
             };
 
-            var user = _context.users.Add(new_user);
-            await _context.SaveChangesAsync();
-            return user.Entity;
+            using(var context = new LimSet_DbContext())
+            {
+                var user = context.users.Add(new_user);
+                await context.SaveChangesAsync();
+                return user.Entity;
+            }            
         }
 
         public async Task<users> disable_user(string fname, string lname)
         {
-            var user = await _context.users.Where(x => x.first_name == fname && x.last_name == lname).FirstOrDefaultAsync();
-            if(user != null)
+            using (var context = new LimSet_DbContext())
             {
-                user.is_active = false;
+                var user = await context.users.Where(x => x.first_name == fname && x.last_name == lname).FirstOrDefaultAsync();
+                if (user != null)
+                {
+                    user.is_active = false;
 
-                await _context.SaveChangesAsync();
-                return user;
-            }
-            return null!;
+                    await context.SaveChangesAsync();
+                    return user;
+                }
+                return null!;
+            }                
         }
                
     }

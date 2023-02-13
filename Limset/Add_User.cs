@@ -4,9 +4,8 @@ using Limset.Helper;
 namespace Limset
 {
     public partial class Add_User : Form
-    {
-        private static readonly LimSet_DbContext? _context;        
-        admin_service _service = new admin_service(_context);
+    {          
+        admin_service _service = new admin_service();
         public Add_User()
         {
             InitializeComponent();            

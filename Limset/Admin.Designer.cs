@@ -30,10 +30,10 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Admin));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnAddNewUser = new System.Windows.Forms.Button();
-            this.btnDisableUser = new System.Windows.Forms.Button();
-            this.btnDataOnline = new System.Windows.Forms.Button();
             this.btnDataMachine = new System.Windows.Forms.Button();
+            this.btnDataOnline = new System.Windows.Forms.Button();
+            this.btnDisableUser = new System.Windows.Forms.Button();
+            this.btnAddNewUser = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -50,33 +50,19 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Admin Tools";
             // 
-            // btnAddNewUser
+            // btnDataMachine
             // 
-            this.btnAddNewUser.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAddNewUser.Image = ((System.Drawing.Image)(resources.GetObject("btnAddNewUser.Image")));
-            this.btnAddNewUser.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnAddNewUser.Location = new System.Drawing.Point(8, 20);
-            this.btnAddNewUser.Name = "btnAddNewUser";
-            this.btnAddNewUser.Size = new System.Drawing.Size(113, 86);
-            this.btnAddNewUser.TabIndex = 0;
-            this.btnAddNewUser.Text = "Add New User";
-            this.btnAddNewUser.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnAddNewUser.UseVisualStyleBackColor = true;
-            this.btnAddNewUser.Click += new System.EventHandler(this.btnAddNewUser_Click);
-            // 
-            // btnDisableUser
-            // 
-            this.btnDisableUser.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDisableUser.Image = ((System.Drawing.Image)(resources.GetObject("btnDisableUser.Image")));
-            this.btnDisableUser.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnDisableUser.Location = new System.Drawing.Point(127, 20);
-            this.btnDisableUser.Name = "btnDisableUser";
-            this.btnDisableUser.Size = new System.Drawing.Size(113, 86);
-            this.btnDisableUser.TabIndex = 1;
-            this.btnDisableUser.Text = "Disable User";
-            this.btnDisableUser.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnDisableUser.UseVisualStyleBackColor = true;
-            this.btnDisableUser.Click += new System.EventHandler(this.btnDisableUser_Click);
+            this.btnDataMachine.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDataMachine.Image = ((System.Drawing.Image)(resources.GetObject("btnDataMachine.Image")));
+            this.btnDataMachine.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnDataMachine.Location = new System.Drawing.Point(365, 20);
+            this.btnDataMachine.Name = "btnDataMachine";
+            this.btnDataMachine.Size = new System.Drawing.Size(113, 86);
+            this.btnDataMachine.TabIndex = 3;
+            this.btnDataMachine.Text = "Data to Machine";
+            this.btnDataMachine.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnDataMachine.UseVisualStyleBackColor = true;
+            this.btnDataMachine.Click += new System.EventHandler(this.btnDataMachine_Click);
             // 
             // btnDataOnline
             // 
@@ -92,19 +78,33 @@
             this.btnDataOnline.UseVisualStyleBackColor = true;
             this.btnDataOnline.Click += new System.EventHandler(this.btnDataOnline_Click);
             // 
-            // btnDataMachine
+            // btnDisableUser
             // 
-            this.btnDataMachine.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDataMachine.Image = ((System.Drawing.Image)(resources.GetObject("btnDataMachine.Image")));
-            this.btnDataMachine.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnDataMachine.Location = new System.Drawing.Point(365, 20);
-            this.btnDataMachine.Name = "btnDataMachine";
-            this.btnDataMachine.Size = new System.Drawing.Size(113, 86);
-            this.btnDataMachine.TabIndex = 3;
-            this.btnDataMachine.Text = "Data to Machine";
-            this.btnDataMachine.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnDataMachine.UseVisualStyleBackColor = true;
-            this.btnDataMachine.Click += new System.EventHandler(this.btnDataMachine_Click);
+            this.btnDisableUser.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDisableUser.Image = ((System.Drawing.Image)(resources.GetObject("btnDisableUser.Image")));
+            this.btnDisableUser.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnDisableUser.Location = new System.Drawing.Point(127, 20);
+            this.btnDisableUser.Name = "btnDisableUser";
+            this.btnDisableUser.Size = new System.Drawing.Size(113, 86);
+            this.btnDisableUser.TabIndex = 1;
+            this.btnDisableUser.Text = "Disable User";
+            this.btnDisableUser.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnDisableUser.UseVisualStyleBackColor = true;
+            this.btnDisableUser.Click += new System.EventHandler(this.btnDisableUser_Click);
+            // 
+            // btnAddNewUser
+            // 
+            this.btnAddNewUser.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddNewUser.Image = ((System.Drawing.Image)(resources.GetObject("btnAddNewUser.Image")));
+            this.btnAddNewUser.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnAddNewUser.Location = new System.Drawing.Point(8, 20);
+            this.btnAddNewUser.Name = "btnAddNewUser";
+            this.btnAddNewUser.Size = new System.Drawing.Size(113, 86);
+            this.btnAddNewUser.TabIndex = 0;
+            this.btnAddNewUser.Text = "Add New User";
+            this.btnAddNewUser.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnAddNewUser.UseVisualStyleBackColor = true;
+            this.btnAddNewUser.Click += new System.EventHandler(this.btnAddNewUser_Click);
             // 
             // Admin
             // 
@@ -116,6 +116,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Admin";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Admin";
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);

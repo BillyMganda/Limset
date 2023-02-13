@@ -74,18 +74,17 @@ namespace Limset
                         else
                         {
                             var role = await _service.user_role(txtUsername.Text);
-                            if(role == "admin")
+                            if(role == "Admin")
                             {
-                                Admin admin = new Admin();
-                                Close();
-                                admin.ShowDialog();
-
+                                Hide();
+                                Admin admin = new Admin();                                
+                                admin.Show();                                
                             }
-                            else if(role == "user")
+                            else if(role == "User")
                             {
-                                User user_ = new User();
-                                Close();
-                                user_.ShowDialog();
+                                Hide();
+                                User user_ = new User();                                
+                                user_.Show();
                             }
                         }
                     }
@@ -97,6 +96,12 @@ namespace Limset
             }            
         }
 
-        
+        private void txtPassword_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btnLogin_Click(this, new EventArgs());
+            }
+        }
     }
 }

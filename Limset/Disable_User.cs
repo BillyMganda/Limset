@@ -12,9 +12,8 @@ using System.Windows.Forms;
 namespace Limset
 {
     public partial class Disable_User : Form
-    {
-        private static readonly LimSet_DbContext? _context;
-        admin_service _service = new admin_service(_context);
+    {        
+        admin_service _service = new admin_service();
         public Disable_User()
         {
             InitializeComponent();            
