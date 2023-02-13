@@ -1,8 +1,10 @@
-﻿using ExcelDataReader;
-using Limset.Models;
+﻿using Limset.Models;
+using Microsoft.Office.Interop.Excel;
 using Newtonsoft.Json;
 using System.Data;
+using System.Data.OleDb;
 using System.Text;
+using DataTable = System.Data.DataTable;
 
 namespace Limset
 {
@@ -12,34 +14,35 @@ namespace Limset
         {
             InitializeComponent();
         }
-
-        DataTableCollection? tables;
+                
         private void btnLoadExcel_Click(object sender, EventArgs e)
         {
             try
             {
-                using (OpenFileDialog ofd = new OpenFileDialog() { Filter = "Excel 97-2003 Workbook|*.xls|Excel Workbook|*.xlsx" })
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.Filter = "CSV files (*.csv)|*.csv|XLSX files (*.xlsx)|*.xlsx|XLS files (*.xls)|*.xls|All files (*.*)|*.*";
+                openFileDialog.FilterIndex = 1;
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    if (ofd.ShowDialog() == DialogResult.OK)
+                    txtFilePath.Text = openFileDialog.FileName;
+                    string filePath = openFileDialog.FileName;
+                    string extension = Path.GetExtension(filePath);
+
+                    switch (extension)
                     {
-                        txtFilePath.Text = ofd.FileName;
-                        using (var stream = File.Open(ofd.FileName, FileMode.Open, FileAccess.Read))
-                        {
-                            using (IExcelDataReader reader = ExcelReaderFactory.CreateReader(stream))
-                            {
-                                DataSet result = reader.AsDataSet(new ExcelDataSetConfiguration()
-                                {
-                                    ConfigureDataTable = (_) => new ExcelDataTableConfiguration()
-                                    {
-                                        UseHeaderRow = true
-                                    }
-                                });
-                                tables = result.Tables;
-                                cboSheet.Items.Clear();
-                                foreach (DataTable table in tables)
-                                    cboSheet.Items.Add(table.TableName);
-                            }
-                        }
+                        case ".csv":
+                            DataTable csvData = ReadCSV(filePath);
+                            dataGridView1.DataSource = csvData;
+                            break;
+                        case ".xlsx":
+                        case ".xls":
+                            DataTable excelData = ReadExcel(filePath);
+                            dataGridView1.DataSource = excelData;
+                            break;
+                        default:
+                            MessageBox.Show("Invalid file type selected. Please select a .csv, .xlsx, or .xls file.");
+                            break;
                     }
                 }
             }
@@ -49,45 +52,59 @@ namespace Limset
             } 
         }
 
-        private void cboSheet_SelectedIndexChanged(object sender, EventArgs e)
+        private DataTable ReadCSV(string filePath)
         {
-            try
+            DataTable csvData = new DataTable();
+            using (Microsoft.VisualBasic.FileIO.TextFieldParser parser = new Microsoft.VisualBasic.FileIO.TextFieldParser(filePath))
             {
-                DataTable dt = tables![cboSheet.SelectedItem.ToString()]!;
-                if (dt != null)
+                parser.TextFieldType = Microsoft.VisualBasic.FileIO.FieldType.Delimited;
+                parser.SetDelimiters(",");
+                while (!parser.EndOfData)
                 {
-                    List<post_data_online> list = new List<post_data_online>();
-                    for (int i = 0; i < dt.Rows.Count; i++)
+                    string[] fields = parser.ReadFields()!;
+                    if (csvData.Columns.Count == 0)
                     {
-                        post_data_online obj = new post_data_online();
-                        obj.reference_range_id = Convert.ToInt32(dt.Rows[i]["CustomerID"]);
-                        obj.test_format_id = Convert.ToInt32(dt.Rows[i]["CompanyName"]);
-                        obj.code = dt.Rows[i]["ContactTitle"].ToString()!;
-                        obj.clinical_field_id = Convert.ToInt32(dt.Rows[i]["City"]);
-                        obj.clinical_condition = dt.Rows[i]["Address"].ToString()!;
-                        obj.sex = dt.Rows[i]["Country"].ToString()!;
-                        obj.age = dt.Rows[i]["Fax"].ToString()!;
-                        obj.text_description = dt.Rows[i]["Phone"].ToString()!;
-                        obj.phone_lo = dt.Rows[i]["PostalCode"].ToString()!;
-                        obj.phone_hi = dt.Rows[i]["Region"].ToString()!;
-                        obj.flag_lo = dt.Rows[i]["Region"].ToString()!;
-                        obj.flag_hi = dt.Rows[i]["Region"].ToString()!;
-                        obj.alert_lo = dt.Rows[i]["Region"].ToString()!;
-                        obj.alert_hi = dt.Rows[i]["Region"].ToString()!;
-                        obj.auth_lo = dt.Rows[i]["Region"].ToString()!;
-                        obj.auth_hi = dt.Rows[i]["Region"].ToString()!;
-                        obj.range_date = Convert.ToDateTime(dt.Rows[i]["Region"]);
-                        obj.line_position = Convert.ToInt32(dt.Rows[i]["Region"]);
-                        obj.is_child = Convert.ToBoolean(dt.Rows[i]["Region"]);
-                        list.Add(obj);
+                        for (int i = 0; i < fields.Length; i++)
+                        {
+                            csvData.Columns.Add();
+                        }
                     }
-                    dataGridView1.DataSource = list;
+                    csvData.Rows.Add(fields);
                 }
             }
-            catch (Exception ex)
+            return csvData;
+        }
+
+        private DataTable ReadExcel(string filePath)
+        {
+            Microsoft.Office.Interop.Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
+            Microsoft.Office.Interop.Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(filePath);
+            Microsoft.Office.Interop.Excel._Worksheet xlWorksheet = (_Worksheet)xlWorkbook.Sheets[1];
+            Microsoft.Office.Interop.Excel.Range xlRange = xlWorksheet.UsedRange;
+
+            DataTable excelData = new DataTable();
+            for (int i = 1; i <= xlRange.Columns.Count; i++)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                excelData.Columns.Add(i.ToString());
             }
+
+            for (int i = 1; i <= xlRange.Rows.Count; i++)
+            {
+                DataRow row = excelData.NewRow();
+                for (int j = 1; j <= xlRange.Columns.Count; j++)
+                {
+                    if (xlRange.Cells[i, j] != null && xlRange.Cells[i, j].Value2 != null)
+                    {
+                        row[j - 1] = xlRange.Cells[i, j].Value2.ToString();
+                    }
+                }
+                excelData.Rows.Add(row);
+            }
+
+            xlWorkbook.Close();
+            xlApp.Quit();
+
+            return excelData;
         }
 
         private async void btnUpload_ClickAsync(object sender, EventArgs e)

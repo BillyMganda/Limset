@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.txtfirstName = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.txtLastName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.txtfirstName = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
@@ -51,24 +51,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Disable User";
             // 
-            // txtfirstName
-            // 
-            this.txtfirstName.BackColor = System.Drawing.SystemColors.HighlightText;
-            this.txtfirstName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtfirstName.Location = new System.Drawing.Point(8, 40);
-            this.txtfirstName.Name = "txtfirstName";
-            this.txtfirstName.Size = new System.Drawing.Size(213, 23);
-            this.txtfirstName.TabIndex = 3;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 22);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(64, 15);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "First Name";
-            // 
             // txtLastName
             // 
             this.txtLastName.BackColor = System.Drawing.SystemColors.HighlightText;
@@ -86,6 +68,24 @@
             this.label2.Size = new System.Drawing.Size(63, 15);
             this.label2.TabIndex = 6;
             this.label2.Text = "Last Name";
+            // 
+            // txtfirstName
+            // 
+            this.txtfirstName.BackColor = System.Drawing.SystemColors.HighlightText;
+            this.txtfirstName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtfirstName.Location = new System.Drawing.Point(8, 40);
+            this.txtfirstName.Name = "txtfirstName";
+            this.txtfirstName.Size = new System.Drawing.Size(213, 23);
+            this.txtfirstName.TabIndex = 3;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(8, 22);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(64, 15);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "First Name";
             // 
             // btnCancel
             // 
@@ -107,7 +107,7 @@
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(92, 32);
             this.btnSave.TabIndex = 6;
-            this.btnSave.Text = "Save";
+            this.btnSave.Text = "Disable";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
@@ -123,6 +123,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Disable_User";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

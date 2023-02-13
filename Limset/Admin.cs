@@ -3,14 +3,12 @@
 namespace Limset
 {
     public partial class Admin : Form
-    {
-        
+    {        
         public Admin()
         {
             InitializeComponent();
             
         }
-
         private void btnAddNewUser_Click(object sender, EventArgs e)
         {
             Add_User add = new Add_User();
