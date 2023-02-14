@@ -69,7 +69,7 @@ namespace Limset
                         var is_active = await _service.is_user_active(txtUsername.Text);
                         if(!is_active)
                         {
-                            MessageBox.Show("402: Error, user is not active", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            MessageBox.Show("402: Login error, user is not active", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         }
                         else
                         {
@@ -83,13 +83,13 @@ namespace Limset
                                 var role = await _service.user_role(txtUsername.Text);
                                 if (role == "Admin")
                                 {
-                                    Hide();
+                                    Hide();                                    
                                     Admin admin = new Admin();
                                     admin.Show();
                                 }
                                 else if (role == "User")
                                 {
-                                    Hide();
+                                    Hide();                                    
                                     User user_ = new User();
                                     user_.Show();
                                 }
