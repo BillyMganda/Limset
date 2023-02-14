@@ -55,6 +55,25 @@ namespace Limset.Helper
                 return is_user_available;
             }               
         }
+        public async Task<bool> is_user_active(string username)
+        { 
+            using (var context = new LimSet_DbContext())
+            {
+                var is_user_available = await context.users.FirstOrDefaultAsync(x => x.username == username);
+                if(is_user_available != null)
+                {
+                    if (is_user_available!.is_active == true)
+                        return true;
+                    return false;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+
         public async Task<string> user_role(string username)
         {
             using (var context = new LimSet_DbContext())

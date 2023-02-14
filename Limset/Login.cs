@@ -62,29 +62,37 @@ namespace Limset
                     var user = await _service.is_user_available(txtUsername.Text);
                     if (user == null)
                     {
-                        MessageBox.Show("404: user not found", "Not Found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        MessageBox.Show("401: user not found", "Not Found", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     }
                     else
-                    {                        
-                        var is_true = _service.verify_password_hash(txtPassword.Text, user.password_hash, user.password_salt);
-                        if(!is_true)
+                    {
+                        var is_active = await _service.is_user_active(txtUsername.Text);
+                        if(!is_active)
                         {
-                            MessageBox.Show("401: incorrect username or password", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                        }                        
+                            MessageBox.Show("402: Error, user is not active", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        }
                         else
                         {
-                            var role = await _service.user_role(txtUsername.Text);
-                            if(role == "Admin")
+                            var is_true = _service.verify_password_hash(txtPassword.Text, user.password_hash, user.password_salt);
+                            if (!is_true)
                             {
-                                Hide();
-                                Admin admin = new Admin();                                
-                                admin.Show();                                
+                                MessageBox.Show("403: incorrect username or password", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                             }
-                            else if(role == "User")
+                            else
                             {
-                                Hide();
-                                User user_ = new User();                                
-                                user_.Show();
+                                var role = await _service.user_role(txtUsername.Text);
+                                if (role == "Admin")
+                                {
+                                    Hide();
+                                    Admin admin = new Admin();
+                                    admin.Show();
+                                }
+                                else if (role == "User")
+                                {
+                                    Hide();
+                                    User user_ = new User();
+                                    user_.Show();
+                                }
                             }
                         }
                     }
