@@ -1,9 +1,7 @@
 ﻿using Limset.Models;
-using Microsoft.Office.Interop.Excel;
 using Newtonsoft.Json;
 using OfficeOpenXml;
 using System.Data;
-using System.Data.OleDb;
 using System.Text;
 using DataTable = System.Data.DataTable;
 
@@ -55,25 +53,29 @@ namespace Limset
 
         private DataTable ReadCSV(string filePath)
         {
-            DataTable csvData = new DataTable();
-            using (Microsoft.VisualBasic.FileIO.TextFieldParser parser = new Microsoft.VisualBasic.FileIO.TextFieldParser(filePath))
+            DataTable dataTable = new DataTable();
+            using (var reader = new StreamReader(filePath))
             {
-                parser.TextFieldType = Microsoft.VisualBasic.FileIO.FieldType.Delimited;
-                parser.SetDelimiters(",");
-                while (!parser.EndOfData)
+                string[] headers = reader.ReadLine()!.Split(',');
+                foreach (string header in headers)
                 {
-                    string[] fields = parser.ReadFields()!;
-                    if (csvData.Columns.Count == 0)
+                    dataTable.Columns.Add(header);
+                }
+                while (!reader.EndOfStream)
+                {
+                    string[] values = reader.ReadLine()!.Split(',');
+
+                    DataRow dataRow = dataTable.NewRow();
+
+                    for (int i = 0; i < values.Length; i++)
                     {
-                        for (int i = 0; i < fields.Length; i++)
-                        {
-                            csvData.Columns.Add();
-                        }
+                        dataRow[i] = values[i];
                     }
-                    csvData.Rows.Add(fields);
+
+                    dataTable.Rows.Add(dataRow);
                 }
             }
-            return csvData;
+            return dataTable;
         }
 
         private DataTable ReadExcel(string filePath)
