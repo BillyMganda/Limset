@@ -112,51 +112,58 @@ namespace Limset
 
         private async void btnUpload_ClickAsync(object sender, EventArgs e)
         {
-            try
+            if(dataGridView1.Rows.Count < 1)
             {
-                List<post_data_online> list = new List<post_data_online>();
-
-                // Get data from DataGridView and add to list
-                foreach (DataGridViewRow row in dataGridView1.Rows)
+                MessageBox.Show("404: error uploading empty data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            else
+            {
+                try
                 {
-                    if (!row.IsNewRow)
+                    List<post_data_online> list = new List<post_data_online>();
+
+                    // Get data from DataGridView and add to list
+                    foreach (DataGridViewRow row in dataGridView1.Rows)
                     {
-                        post_data_online online = new post_data_online
+                        if (!row.IsNewRow)
                         {
-                            reference_range_id = (int)row.Cells[0].Value,
-                            test_format_id = (int)row.Cells[1].Value,
-                            code = row.Cells[2].Value.ToString()!,
-                            clinical_field_id = int.Parse(row.Cells[3].Value.ToString())
-                        };
+                            post_data_online online = new post_data_online
+                            {
+                                reference_range_id = (int)row.Cells[0].Value,
+                                test_format_id = (int)row.Cells[1].Value,
+                                code = row.Cells[2].Value.ToString()!,
+                                clinical_field_id = int.Parse(row.Cells[3].Value.ToString())
+                            };
 
-                        list.Add(online);
+                            list.Add(online);
+                        }
                     }
+
+                    // Serialize list of post_data_online to JSON
+                    string json = JsonConvert.SerializeObject(list);
+
+                    // Make POST request to server with JSON data
+                    using (HttpClient client = new HttpClient())
+                    {
+                        var content = new StringContent(json, Encoding.UTF8, "application/json");
+                        HttpResponseMessage response = await client.PostAsync("https://localhost:44355/api/users", content);
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            MessageBox.Show("Data posted successfully");
+                        }
+                        else
+                        {
+                            MessageBox.Show("An error occurred while posting data");
+                        }
+                    }
+
                 }
-
-                // Serialize list of post_data_online to JSON
-                string json = JsonConvert.SerializeObject(list);
-
-                // Make POST request to server with JSON data
-                using (HttpClient client = new HttpClient())
+                catch (Exception ex)
                 {
-                    var content = new StringContent(json, Encoding.UTF8, "application/json");
-                    HttpResponseMessage response = await client.PostAsync("https://localhost:44355/api/users", content);
-
-                    if (response.IsSuccessStatusCode) 
-                    {
-                        MessageBox.Show("Data posted successfully");
-                    }
-                    else
-                    {
-                        MessageBox.Show("An error occurred while posting data");
-                    }
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            }
+            }            
         }
     }
 }
