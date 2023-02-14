@@ -1,6 +1,7 @@
 ﻿using Limset.Models;
 using Microsoft.Office.Interop.Excel;
 using Newtonsoft.Json;
+using OfficeOpenXml;
 using System.Data;
 using System.Data.OleDb;
 using System.Text;
@@ -77,34 +78,34 @@ namespace Limset
 
         private DataTable ReadExcel(string filePath)
         {
-            Microsoft.Office.Interop.Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
-            Microsoft.Office.Interop.Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(filePath);
-            Microsoft.Office.Interop.Excel._Worksheet xlWorksheet = (_Worksheet)xlWorkbook.Sheets[1];
-            Microsoft.Office.Interop.Excel.Range xlRange = xlWorksheet.UsedRange;
-
-            DataTable excelData = new DataTable();
-            for (int i = 1; i <= xlRange.Columns.Count; i++)
+            using (var stream = File.Open(filePath, FileMode.Open, FileAccess.Read))
             {
-                excelData.Columns.Add(i.ToString());
-            }
-
-            for (int i = 1; i <= xlRange.Rows.Count; i++)
-            {
-                DataRow row = excelData.NewRow();
-                for (int j = 1; j <= xlRange.Columns.Count; j++)
+                using (var package = new ExcelPackage(stream))
                 {
-                    if (xlRange.Cells[i, j] != null && xlRange.Cells[i, j].Value2 != null)
+                    ExcelWorksheet worksheet = package.Workbook.Worksheets[1];
+                    DataTable dataTable = new DataTable(worksheet.Name);
+                    for (int row = worksheet.Dimension.Start.Row; row <= worksheet.Dimension.End.Row; row++)
                     {
-                        row[j - 1] = xlRange.Cells[i, j].Value2.ToString();
+                        DataRow dataRow = dataTable.NewRow();
+                        for (int col = worksheet.Dimension.Start.Column; col <= worksheet.Dimension.End.Column; col++)
+                        {
+                            if (row == worksheet.Dimension.Start.Row)
+                            {
+                                dataTable.Columns.Add(worksheet.Cells[row, col].Value.ToString());
+                            }
+                            else
+                            {                                
+                                dataRow[dataTable.Columns[col - 1].ColumnName] = worksheet.Cells[row, col].Value ?? DBNull.Value;
+                            }
+                        }
+                        if (row != worksheet.Dimension.Start.Row)
+                        {
+                            dataTable.Rows.Add(dataRow);
+                        }
                     }
+                    return dataTable;
                 }
-                excelData.Rows.Add(row);
             }
-
-            xlWorkbook.Close();
-            xlApp.Quit();
-
-            return excelData;
         }
 
         private async void btnUpload_ClickAsync(object sender, EventArgs e)
